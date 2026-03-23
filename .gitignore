@@ -11,8 +11,8 @@ env/
 # SQLite Database
 *.db
 
-# Streamlit
-.streamlit/
+# Streamlit (config allowed)
+#.streamlit/
 
 # OS generated files
 .DS_Store
