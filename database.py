@@ -25,6 +25,18 @@ def init_db():
             indicacao INTEGER
         )
     ''')
+    
+    # Inserir dados de modelo caso o cliente demo não exista
+    cursor.execute("SELECT COUNT(*) FROM clientes WHERE nome = ?", ("Cliente Exemplo (Demo)",))
+    if cursor.fetchone()[0] == 0:
+        cursor.execute('''
+            INSERT INTO clientes (nome, inv_trafego, inv_agencia, vendas, custos, 
+                                  alcance, interacao, contatos, conversao, 
+                                  encantamento, expansao, defesa, indicacao)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', ("Cliente Exemplo (Demo)", 5000.0, 2000.0, 25000.0, 10000.0, 
+              100000, 45000, 12000, 3500, 2800, 1500, 800, 400))
+    
     conn.commit()
     conn.close()
 

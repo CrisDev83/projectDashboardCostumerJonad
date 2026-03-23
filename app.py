@@ -156,8 +156,24 @@ else:
 
     with col_tabela:
         st.markdown("##### Tabela de Performance")
+
+        # Encontra o valor mínimo em 'Tx Conv Etapa Anterior' (ignorando o primeiro NaN)
+        min_conv = df['Tx Conv Etapa Anterior'].min()
+
+        def highlight_min_row(row):
+            is_min = row['Tx Conv Etapa Anterior'] == min_conv and pd.notnull(min_conv)
+            return ['background-color: #ffcccc' if is_min else '' for _ in row]
+
+        # Prepara o DF para exibição (escondendo a coluna de cálculo no final)
+        df_display = df[['Etapa', 'Volume', 'Taxa Formatada', 'Tx Conv Etapa Anterior']].rename(
+            columns={'Taxa Formatada': 'Tx Conversão'}
+        )
+
         st.dataframe(
-            df[['Etapa', 'Volume', 'Taxa Formatada']].rename(columns={'Taxa Formatada': 'Tx Conversão'}),
+            df_display.style.apply(highlight_min_row, axis=1),
+            column_config={
+                "Tx Conv Etapa Anterior": None,  # Esconde a coluna usada no cálculo
+            },
             hide_index=True,
             use_container_width=True
         )
