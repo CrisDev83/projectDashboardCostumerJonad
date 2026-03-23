@@ -48,26 +48,14 @@ if cliente_selecionado == "➕ Cadastrar Novo Cliente":
         vendas = col_f3.number_input("Valor em Vendas Brutas / Receita (R$)", min_value=0.0, step=100.0)
         custos = col_f4.number_input("Custos Variáveis da Empresa/Produto (R$)", min_value=0.0, step=100.0)
         
-        st.subheader("2. Etapas do Funil (Volume Absoluto de Pessoas)")
-        c1, c2, c3, c4 = st.columns(4)
-        alcance = c1.number_input("Alcance (Ex: 100000)", min_value=0, step=1)
-        interacao = c2.number_input("Interação (Ex: 40000)", min_value=0, step=1)
-        contatos = c3.number_input("Contatos / Leads (Ex: 15000)", min_value=0, step=1)
-        conversao = c4.number_input("Conversão / Vendas (Ex: 3000)", min_value=0, step=1)
-        
-        c5, c6, c7, c8 = st.columns(4)
-        encantamento = c5.number_input("Encantamento (Aha Moment)", min_value=0, step=1)
-        expansao = c6.number_input("Expansão / LTV / Upsell", min_value=0, step=1)
-        defesa = c7.number_input("Defesa / Avaliações", min_value=0, step=1)
-        indicacao = c8.number_input("Indicação / Embaixadores", min_value=0, step=1)
-        
         submit = st.form_submit_button("Salvar Cliente e Gerar Dashboard", type="primary")
         
         if submit:
             if nome.strip() == "":
                 st.error("Por favor, preencha o nome do cliente antes de salvar!")
             else:
-                funil_valores = (alcance, interacao, contatos, conversao, encantamento, expansao, defesa, indicacao)
+                # Inicializa valores do funil com zero (serão preenchidos automaticamente depois)
+                funil_valores = (0, 0, 0, 0, 0, 0, 0, 0)
                 database.inserir_cliente(nome, inv_trafego, inv_agencia, vendas, custos, funil_valores)
                 st.success(
                     f"Cliente '{nome}' cadastrado com sucesso! Selecione ele na "
